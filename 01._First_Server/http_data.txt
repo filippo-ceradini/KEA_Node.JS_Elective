@@ -1,0 +1,8 @@
+anatomy of a URL
+
+protocol (ftp, http,https)
+
+localhost=127.0.0.1
+        domain    endpoint      path variable
+https://localhost/kickdinosaur/:id?size=12
+                                    query string
