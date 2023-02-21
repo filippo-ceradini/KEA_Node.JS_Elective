@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "meaning-of-life": "^1.0.0"
+  }
+}
