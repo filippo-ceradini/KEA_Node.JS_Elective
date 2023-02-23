@@ -58,7 +58,7 @@ app.get("/", (req, res) => {
           }
           .container {
             margin: 50px auto;
-            max-width: 600px;
+            max-width: 800px;
             text-align: center;
           }
           h1 {
@@ -73,6 +73,16 @@ app.get("/", (req, res) => {
             font-size: 1.5em;
             margin-bottom: 10px;
           }
+          a {
+            text-align: center;
+            font-size: 1.5em;
+            color: blue;
+            text-decoration: none;
+          }
+      
+          a:hover {
+            color: white;
+          }
           img {
             max-width: 100%;
             margin-bottom: 20px;
@@ -84,9 +94,9 @@ app.get("/", (req, res) => {
           <h1>The World of Byrds</h1>
           <img src="https://images.unsplash.com/photo-1581362662614-dd27d9eb9291?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2348&q=80" alt="byrds">
           <h3>Find the Byrds with these Endpoints:</h3>
-          <p>• /byrds</p>
-          <p>• /byrds/name/{name}</p>
-          <p>• /byrds/commonName/{commonName}</p>
+          <p><a href="localhost:8080/byrds/" target="_blank">/byrds</a></p>
+          <p><a href="localhost:8080/byrds/name/Papua" target="_blank">/byrds/name/{name} (example Gentoo)</a></p>
+          <p><a href="localhost:8080/byrds/commonName/Flamingo" target="_blank">/byrds/commonName/{commonName} (example Flamingo)</a></p>
           <br>
           <img src="https://images.unsplash.com/photo-1594697279862-1c0a41714940?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1364&q=80" alt="byrds">
         </div>
@@ -122,7 +132,7 @@ app.get("/byrds/name/:byrdName", (req, res) => {
   );
 
   if (found) {
-    res.send(resultHTTP(found));
+    res.send(found);
   } else {
     res.status(404).send("byrd not found");
   }
@@ -138,11 +148,52 @@ app.get("/byrds/commonName/:commonName", (req, res) => {
   //filter returns an array
 
   if (found) {
-    res.send(resultHTTP(found));
+    res.send(found);
   } else {
     res.status(404).send("byrd not found");
   }
 });
+
+///POST
+app.post("/byrds", (req, res) => {
+  const body = req.body;
+
+  const newId = byrds.length + 1;
+  const newByrd = {id: newId, ...body};
+  byrds.push(newByrd);
+
+  res.send({data: newByrd});
+})
+
+///PUT
+app.put("/byrds/", (req, res) => {
+  const body = req.body;
+  const newByrd = {...body};
+  byrds.splice(newByrd.id -1, 1,newByrd)
+  res.send({data: newByrd});
+})
+
+//DELETE by id
+app.delete("/byrds/:id", (req, res) => {
+  const byrdById = byrds.find(byrd => byrd.id === Number(req.params.id));
+  byrds.splice(byrds.indexOf(byrdById), 1)
+
+  if (byrdById) {
+    res.sendStatus(200);
+  } else {
+    res.status(404).send("byrd not found");
+  }
+});
+
+//PATCH 
+app.patch("/byrds/", (req, res) => {
+  const body = req.body;
+  const updatedByrd = {...body};
+  byrds.splice(updatedByrd.id -1, 1,updatedByrd)
+  res.send({data: updatedByrd});
+})
+
+
 
 
 function resultHTTP(byrd) {
