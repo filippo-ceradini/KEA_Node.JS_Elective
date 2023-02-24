@@ -3,7 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Museum of Tanks</title>
-	<link rel="stylesheet" href="./tanks/tanks.css">
+	<link rel="stylesheet" href="./tanks.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 	<header>
@@ -19,26 +24,29 @@
 	<main>
 		<h2>Tanks</h2>
 		<section>
-			<h3>About Us</h3>
-			<p>The Museum of Tanks is dedicated to preserving the history of tanks and their role in military conflicts around the world. Our collection includes tanks from different eras and countries, and we offer exhibitions and educational programs for all ages.</p>
-		</section>
-		<section>
-			<h3>Exhibitions</h3>
-			<p>Our exhibitions showcase the most important tanks in history, from World War I to the present day. We also offer interactive displays, videos, and guided tours to help visitors learn about the technology and strategy behind these machines.</p>
-		</section>
-		<section>
-			<h3>Events</h3>
-			<p>We host a variety of events throughout the year, including talks, workshops, and film screenings. Check our calendar for upcoming events.</p>
-		</section>
-		<section>
-			<h3>Visit Us</h3>
-			<p>We are located in the heart of the city, and our opening hours are from 10am to 6pm every day. Admission is free for children under 12, and tickets for adults are $10. We also offer discounts for groups and students.</p>
+			<div id="tanks-wrapper">
+				<div class="container mt-5">
+					<div class="row justify-content-center">
+						<div class="col-lg-12">
+							<table id="tanks-table" class="table table-striped bg-white rounded">
+								<thead>
+								<tr>
+									<th scope="col">Name</th>
+								</tr>
+								</thead>
+								<tbody id="tanks-table-body">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</section>
 	</main>
 	<footer>
 		<p>&copy; 2023 Museum of Tanks</p>
 	</footer>
-<script src="./tanks/tanks.js"></script>
+<script src="./tanks.js"></script>
 
 </body>
 </html>

@@ -39,6 +39,7 @@ const byrd4 = {
   image: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Puffin_%28Fratercula_arctica%29.jpg"
 };
 
+
 //Populating the 'table'
 byrds.push(byrd1, byrd2, byrd3, byrd4);
 
@@ -108,7 +109,7 @@ app.get("/", (req, res) => {
 
 //GET all
 app.get("/byrds", (req, res) => {
-  res.send({data:byrds}); //{data: byrds} gives out 
+  res.send({ data: byrds }); //{data: byrds} gives out 
 });
 
 
@@ -154,47 +155,58 @@ app.get("/byrds/commonName/:commonName", (req, res) => {
   }
 });
 
-///POST
+let nextId = 4
+
+//POST
 app.post("/byrds", (req, res) => {
   const body = req.body;
-
-  const newId = byrds.length + 1;
-  const newByrd = {id: newId, ...body};
+  const newId = ++nextId;
+  console.log(nextId);
+  const newByrd = { id: newId, ...body };
   byrds.push(newByrd);
 
-  res.send({data: newByrd});
+  res.send({ data: newByrd });
 })
 
-///PUT
+//PUT
 app.put("/byrds/", (req, res) => {
   const body = req.body;
-  const newByrd = {...body};
-  byrds.splice(newByrd.id -1, 1,newByrd)
-  res.send({data: newByrd});
+  const newByrd = { ...body };
+  byrds.splice(newByrd.id - 1, 1, newByrd)
+  res.send({ data: newByrd });
 })
 
 //DELETE by id
 app.delete("/byrds/:id", (req, res) => {
-  const byrdById = byrds.find(byrd => byrd.id === Number(req.params.id));
-  byrds.splice(byrds.indexOf(byrdById), 1)
-
-  if (byrdById) {
-    res.sendStatus(200);
+  const foundIndex = byrds.findIndex(byrd => byrd.id === Number(req.params.id))
+  if (foundIndex === -1) {
+    res.status(404).send({ data: foundIndex, message: `No byrd found with id ${req.params.id}` })
   } else {
-    res.status(404).send("byrd not found");
+    byrds.splice(foundIndex, 1)
+    res.status(200).send({ data: foundIndex, message: `Byrd with id ${req.params.id} eliminated` })
   }
 });
 
-//PATCH 
-app.patch("/byrds/", (req, res) => {
-  const body = req.body;
-  const updatedByrd = {...body};
-  byrds.splice(updatedByrd.id -1, 1,updatedByrd)
-  res.send({data: updatedByrd});
+// //PATCH 
+// app.patch("/byrds/", (req, res) => {
+//   const body = req.body;
+//   const updatedByrd = { ...body };
+//   byrds.splice(updatedByrd.id - 1, 1, updatedByrd)
+//   res.send({ data: updatedByrd });
+// })
+
+//PATCH ANDERS
+app.patch("/byrds/:id", (req, res) => {
+  const foundIndex = byrds.findIndex(byrd => byrd.id === Number(req.params.id))
+  if (!foundIndex === -1) {
+    res.status(404).send({ data: foundIndex, message: `No byrd found with id ${req.params.id}` })
+  } else {
+    const foundByrd = byrds[foundIndex]
+    const birdToPatch = {...foundByrd, ...req.body, id:foundByrd.id}// Spread takes the body from the first, then from the second, then the id from the last
+    byrds[foundIndex] = birdToPatch;
+    res.status(200).send({ data: foundByrd, message: `Byrd with id ${req.params.id} patched` })
+  }
 })
-
-
-
 
 function resultHTTP(byrd) {
   return `<!DOCTYPE html>
