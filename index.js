@@ -1,3 +1,10 @@
-const meaningOfLife = require("meaning-of-life");
-
-console.log(meaningOfLife);
+app.get("/time/time", (req,res) =>{
+    res.send(
+        {
+            timeUTC: new Date(),
+            timeLocal: Date(),
+            unixTimestamp: Date.now()
+        }
+    );
+}
+)

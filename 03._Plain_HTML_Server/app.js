@@ -33,6 +33,17 @@ app.get("/api/tanks", (req, res) => {
     res.send({ data: tanks }); //{data: byrds} gives out 
   });
 
+  app.get("/time/time", (req,res) =>{
+    res.send(
+        {
+            timeUTC: new Date(),
+            timeLocal: Date(),
+            unixTimestamp: Date.now()
+        }
+    );
+}
+)
+
 
 const PORT = 8080
 app.listen(PORT, (error) => {
